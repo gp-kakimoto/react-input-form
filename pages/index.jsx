@@ -21,8 +21,17 @@ export default function Home() {
 
   /* 予約日を保存する変数とsetするための関数 */
   const [reservDate, setReservDate] = useState({ text: "", flag: false });
-  /*  予約日が入力されていないときのエラメッセージを保存するための変数とsetの関数*/
+  /*現在時刻を保持するための変数*/
   const [reservDateError, setReservDateError] = useState("");
+
+  const [selectedMeetingPlaceOption, setSelectedMeetingPlaceOption] =
+    useState("online");
+
+  const handleSelectedMeetingPlaceOptionChange = useCallback((e) => {
+    setSelectedMeetingPlaceOption(() => {
+      return e.target.value;
+    });
+  }, []);
 
   const handleNameChange = useCallback((e) => {
     if (e.target.value.length > 100) {
@@ -42,6 +51,15 @@ export default function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      name.flag &&
+      phoneNumber.number1.flag &&
+      phoneNumber.number2.flag &&
+      phoneNumber.number3.flag &&
+      reservDate.flag
+    ) {
+      console.log("submit process ....");
+    }
   };
 
   const handlePhoneNumber1 = useCallback((e) => {
@@ -50,30 +68,40 @@ export default function Home() {
       return;
     }
     /*if (e.target.value.trim().length === 0) {*/
-    setPhoneNumber(() => {
-      return e.target.value.trim().length === 0
-        ? {
-            number1: { text: e.target.value.trim(), flag: false },
-            number2: {
-              text: phoneNumber.number2.text,
-              flag: phoneNumber.number2.flag,
-            },
-            number3: {
-              text: phoneNumber.number3.text,
-              flag: phoneNumber.number3.flag,
-            },
-          }
-        : {
-            number1: { text: e.target.value.trim(), flag: true },
-            number2: {
-              text: phoneNumber.number2.text,
-              flag: phoneNumber.number2.flag,
-            },
-            number3: {
-              text: phoneNumber.number3.text,
-              flag: phoneNumber.number3.flag,
-            },
-          };
+    setPhoneNumber((old) => {
+      return {
+        ...old,
+        number1: {
+          text: e.target.value.trim(),
+          flag: !(e.target.value.trim().length === 0),
+        },
+      };
+      /*
+        return e.target.value.trim().length === 0
+          ? {
+              number1: { text: e.target.value.trim(), flag: false },
+
+              number2: {
+                text: phoneNumber.number2.text,
+                flag: phoneNumber.number2.flag,
+              },
+              number3: {
+                text: phoneNumber.number3.text,
+                flag: phoneNumber.number3.flag,
+              },
+            }
+          : {
+              number1: { text: e.target.value.trim(), flag: true },
+
+              number2: {
+                text: phoneNumber.number2.text,
+                flag: phoneNumber.number2.flag,
+              },
+              number3: {
+                text: phoneNumber.number3.text,
+                flag: phoneNumber.number3.flag,
+              },
+            };*/
     });
   }, []);
 
@@ -120,31 +148,42 @@ export default function Home() {
     }
     console.log("This is handlePhoneNumber2 process .... ");
     /*if (e.target.value.trim().length === 0) {*/
-    setPhoneNumber(() => {
+    setPhoneNumber((old) => {
       console.log("This is setPhoneNumber of handlePhoneNumber2 preocess...");
-      return e.target.value.trim().length === 0
-        ? {
-            number1: {
-              text: phoneNumber.number1.text,
-              flag: phoneNumber.number1.flag,
-            },
-            number2: { text: e.target.value.trim(), flag: false },
-            number3: {
-              text: phoneNumber.number3.text,
-              flag: phoneNumber.number3.flag,
-            },
-          }
-        : {
-            number1: {
-              text: phoneNumber.number1.text,
-              flag: phoneNumber.number1.flag,
-            },
-            number2: { text: e.target.value.trim(), flag: true },
-            number3: {
-              text: phoneNumber.number3.text,
-              flag: phoneNumber.number3.flag,
-            },
-          };
+      return {
+        ...old,
+        number2: {
+          text: e.target.value.trim(),
+          flag: !(e.target.value.trim().length === 0),
+        },
+      };
+      /*return e.target.value.trim().length === 0
+          ? {
+              number1: {
+                text: phoneNumber.number1.text,
+                flag: phoneNumber.number1.flag,
+              },
+
+              number2: { text: e.target.value.trim(), flag: false },
+
+              number3: {
+                text: phoneNumber.number3.text,
+                flag: phoneNumber.number3.flag,
+              },
+            }
+          : {
+              number1: {
+                text: phoneNumber.number1.text,
+                flag: phoneNumber.number1.flag,
+              },
+
+              number2: { text: e.target.value, flag: true },
+
+              number3: {
+                text: phoneNumber.number3.text,
+                flag: phoneNumber.number3.flag,
+              },
+            };*/
     });
   }, []);
 
@@ -155,32 +194,52 @@ export default function Home() {
     }
     console.log("This is handlePhoneNumber3 process .... ");
     /*if (e.target.value.trim().length === 0) {*/
-    setPhoneNumber(() => {
+    setPhoneNumber((old) => {
       console.log("This is setPhoneNumber of handlePhoneNumber3 preocess...");
-      return e.target.value.trim().length === 0
+      return {
+        ...old,
+        number3: {
+          text: e.target.value.trim(),
+          flag: !(e.target.value.trim().length === 0),
+        },
+      };
+
+      /*return e.target.value.trim().length === 0
         ? {
             number1: {
-              text: phoneNumber.number1.text,
-              flag: phoneNumber.number1.flag,
+              text: old.number1.text,
+              flag: old.number1.flag,
             },
             number2: {
-              text: phoneNumber.number2.text,
-              flag: phoneNumber.number2.flag,
+              text: old.number2.text,
+              flag: old.number2.flag,
             },
             number3: { text: e.target.value.trim(), flag: false },
           }
         : {
             number1: {
-              text: phoneNumber.number1.text,
-              flag: phoneNumber.number1.flag,
+              text: old.number1.text,
+              flag: old.number1.flag,
             },
 
             number2: {
-              text: phoneNumber.number2.text,
-              flag: phoneNumber.number2.flag,
+              text: old.number2.text,
+              flag: old.number2.flag,
             },
-            number3: { text: e.target.value.trim(), flag: true },
-          };
+            number3: { text: e.target.value, flag: true },
+          };*/
+      /*return {
+        number1: {
+          text: old.number1.text,
+          flag: old.number1.flag,
+        },
+
+        number2: {
+          text: old.number2.text,
+          flag: old.number2.flag,
+        },
+        number3: { text: e.target.value, flag: true },
+      };*/
     });
   }, []);
 
@@ -202,14 +261,29 @@ export default function Home() {
   }, []);
 */
   const handleReservDate = useCallback((e) => {
+    const now = new Date();
+    /*今日の日付を保持するための変数*/
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    console.log(e.target.value);
+    const targetDate = new Date(e.target.value.trim());
+    console.log(`today=${today}`);
+    console.log(`targetDate=${targetDate}`);
+    /*  予約日が入力されていないときのエラメッセージを保存するための変数とsetの関数*/
     if (e.target.value.trim().length === 0) {
       setReservDate(() => {
-        return { text: e.target.value.trim(), flag: false };
+        return { text: "", flag: false };
       });
     } else {
-      setReservDate(() => {
-        return { text: e.target.value.trim(), flag: true };
-      });
+      /*日付が過去のものでないかチェックする*/
+      if (today > targetDate) {
+        setReservDate(() => {
+          return { text: "", flag: false };
+        });
+      } else {
+        setReservDate(() => {
+          return { text: e.target.value.trim(), flag: true };
+        });
+      }
     }
   }, []);
 
@@ -231,8 +305,11 @@ export default function Home() {
       setPhoneNumberError(() => {
         console.log("Phone Number is false");
         console.log(`number1.flag=${phoneNumber.number1.flag}`);
+        console.log(`number1.text=${phoneNumber.number1.text}`);
         console.log(`number2.flag=${phoneNumber.number2.flag}`);
+        console.log(`number2.text=${phoneNumber.number2.text}`);
         console.log(`number3.flag=${phoneNumber.number3.flag}`);
+        console.log(`number3.text=${phoneNumber.number3.text}`);
         return "電話番号は必須項目です。";
       });
     } else {
@@ -280,6 +357,7 @@ export default function Home() {
                   type="text"
                   id="name"
                   name="your-name"
+                  value={name.text}
                   onChange={handleNameChange}
                 />
                 <p id="name-error">{nameError}</p>
@@ -294,6 +372,7 @@ export default function Home() {
                   type="text"
                   id="tel1"
                   name="your-tel1"
+                  value={phoneNumber.number1.text}
                   onChange={handlePhoneNumber1}
                 />{" "}
                 -
@@ -301,6 +380,7 @@ export default function Home() {
                   type="text"
                   id="tel2"
                   name="your-tel2"
+                  value={phoneNumber.number2.text}
                   onChange={handlePhoneNumber2}
                 />{" "}
                 -
@@ -308,6 +388,7 @@ export default function Home() {
                   type="text"
                   id="tel3"
                   name="your-tel3"
+                  value={phoneNumber.number3.text}
                   onChange={handlePhoneNumber3}
                 />
                 <p id="tel-error">{phoneNumberError}</p>
@@ -322,6 +403,7 @@ export default function Home() {
                   type="date"
                   id="reservation"
                   name="your-reservation"
+                  value={reservDate.text}
                   onChange={handleReservDate}
                 />{" "}
                 13時 ～ 14時
@@ -337,7 +419,8 @@ export default function Home() {
                   id="online"
                   name="your-lesson"
                   value="online"
-                  checked
+                  onChange={handleSelectedMeetingPlaceOptionChange}
+                  checked={selectedMeetingPlaceOption === "online"}
                 />
                 <label htmlFor="online">オンラインで受講</label>
                 <br />
@@ -346,38 +429,41 @@ export default function Home() {
                   id="venue"
                   name="your-lesson"
                   value="venue"
+                  onChange={handleSelectedMeetingPlaceOptionChange}
+                  checked={selectedMeetingPlaceOption === "venue"}
                 />
                 <label htmlFor="venue">会場で受講</label>
                 <p id="lesson-error"></p>
               </dd>
             </dl>
 
-            <div>
-              <p>
-                当日はオンライン会議システムを使用いたします。
-                <br />
-                ご受講にあたり、端末とネットワーク環境が必要になりますのでご準備をお願いいたします。
-                <br />
-                参加方法については、前日までに別途ご案内を差し上げます。
-              </p>
-            </div>
-
-            <div>
-              <p>
-                【会場情報】
-                <br />
-                会場：代々木GIプラザ3F Room1
-                <br />
-                住所：〒151-0053　東京都渋谷区代々木1-1-1
-                <br />
-                電話番号：00-0000-0000
-              </p>
-            </div>
-
+            {selectedMeetingPlaceOption === "online" ? (
+              <div>
+                <p>
+                  当日はオンライン会議システムを使用いたします。
+                  <br />
+                  ご受講にあたり、端末とネットワーク環境が必要になりますのでご準備をお願いいたします。
+                  <br />
+                  参加方法については、前日までに別途ご案内を差し上げます。
+                </p>
+              </div>
+            ) : (
+              <div>
+                <p>
+                  【会場情報】
+                  <br />
+                  会場：代々木GIプラザ3F Room1
+                  <br />
+                  住所：〒151-0053　東京都渋谷区代々木1-1-1
+                  <br />
+                  電話番号：00-0000-0000
+                </p>
+              </div>
+            )}
             <div>
               <button
                 id="submit-button"
-                type="button"
+                type="submit"
                 value=""
                 onClick={checkInputData}
               >
