@@ -1,29 +1,38 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 export default function Home() {
   /* 名前を保存する変数とsetするための関数 */
-  const [name, setName] = useState({ text: "", flag: false });
+  const [name, setName] = useState("");
   /* 名前が入力されていないときのエラメッセージを保存するための変数とsetの関数*/
   const [nameError, setNameError] = useState("");
   /* 電話番号を保存するための変数 */
   const [phoneNumber, setPhoneNumber] = useState({
-    number1: { text: "", flag: false },
-    number2: { text: "", flag: false },
-    number3: { text: "", flag: false },
+    number1: "",
+    number2: "",
+    number3: "",
   });
-  /*const [phoneNumber1, setPhoneNumber1] = useState({ text: "", flag: false });*/
-  /*const [phoneNumber2, setPhoneNumber2] = useState({ text: "", flag: false });*/
-  /*  const [phoneNumber3, setPhoneNumber3] = useState({ text: "", flag: false });*/
   /* 電話番号が入力されていないときのエラメッセージを保存するための変数とsetの関数*/
   const [phoneNumberError, setPhoneNumberError] = useState("");
 
   /* 予約日を保存する変数とsetするための関数 */
-  const [reservDate, setReservDate] = useState({ text: "", flag: false });
+  /*const [reservDate, setReservDate] = useState({ text: "", flag: false });*/
+  const [reservDate, setReservDate] = useState("");
   /*現在時刻を保持するための変数*/
   const [reservDateError, setReservDateError] = useState("");
+  const now = new Date();
+  const nowMonth =
+    now.getMonth() < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
 
+  const nowDate = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
+
+  const nowYear = now.getFullYear();
+  console.log(`nowDate=${nowDate}`);
+  const today = useMemo(() => {
+    return nowYear + "-" + nowMonth + "-" + nowDate;
+  }, [nowYear, nowMonth, nowDate]);
+  console.log(`today = ${today}`);
   const [selectedMeetingPlaceOption, setSelectedMeetingPlaceOption] =
     useState("online");
 
@@ -38,25 +47,20 @@ export default function Home() {
       alert("100文字以内にしてください");
       return;
     }
-    if (e.target.value.trim().length === 0) {
-      setName(() => {
-        return { text: e.target.value.trim(), flag: false };
-      });
-    } else {
-      setName(() => {
-        return { text: e.target.value.trim(), flag: true };
-      });
-    }
+
+    setName(() => {
+      return e.target.value.trim();
+    });
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
-      name.flag &&
-      phoneNumber.number1.flag &&
-      phoneNumber.number2.flag &&
-      phoneNumber.number3.flag &&
-      reservDate.flag
+      name.length !== 0 &&
+      phoneNumber.number1 !== 0 &&
+      phoneNumber.number2 !== 0 &&
+      phoneNumber.number3 !== 0 &&
+      reservDate !== 0
     ) {
       console.log("submit process ....");
     }
@@ -64,202 +68,66 @@ export default function Home() {
 
   const handlePhoneNumber1 = useCallback((e) => {
     if (e.target.value.trim().match(/[^0-9０-９]+/)) {
-      alert("数字を入力してください");
+      /*alert("数字を入力してください");*/
+      setPhoneNumberError(() => {
+        return "数字を入力してください";
+      });
       return;
     }
-    /*if (e.target.value.trim().length === 0) {*/
+    setPhoneNumberError(() => {
+      return "";
+    });
     setPhoneNumber((old) => {
       return {
         ...old,
-        number1: {
-          text: e.target.value.trim(),
-          flag: !(e.target.value.trim().length === 0),
-        },
+        number1: e.target.value.trim(),
       };
-      /*
-        return e.target.value.trim().length === 0
-          ? {
-              number1: { text: e.target.value.trim(), flag: false },
-
-              number2: {
-                text: phoneNumber.number2.text,
-                flag: phoneNumber.number2.flag,
-              },
-              number3: {
-                text: phoneNumber.number3.text,
-                flag: phoneNumber.number3.flag,
-              },
-            }
-          : {
-              number1: { text: e.target.value.trim(), flag: true },
-
-              number2: {
-                text: phoneNumber.number2.text,
-                flag: phoneNumber.number2.flag,
-              },
-              number3: {
-                text: phoneNumber.number3.text,
-                flag: phoneNumber.number3.flag,
-              },
-            };*/
     });
   }, []);
 
-  /* 
-  const handlePhoneNumber1 = useCallback((e) => {
-    
-    if (e.target.value.trim().match(/[^0-9０-９]+/)) {
-      alert("数字を入力してください");
-      return;
-    }
-    if (e.target.value.trim().length === 0) {
-      setPhoneNumber1(() => {
-        return { text: e.target.value.trim(), flag: false };
-      });
-    } else {
-      setPhoneNumber1(() => {
-        return { text: e.target.value.trim(), flag: true };
-      });
-    }
-  }, []);
-*/
-  /*
   const handlePhoneNumber2 = useCallback((e) => {
     if (e.target.value.trim().match(/[^0-9０-９]+/)) {
-      alert("数字を入力してください");
+      /*alert("数字を入力してください");*/
+      setPhoneNumberError(() => {
+        return "数字を入力してください";
+      });
       return;
     }
-    if (e.target.value.trim().length === 0) {
-      setPhoneNumber2(() => {
-        return { text: e.target.value.trim(), flag: false };
-      });
-    } else {
-      setPhoneNumber2(() => {
-        return { text: e.target.value.trim(), flag: true };
-      });
-    }
-  }, []);
-*/
-
-  const handlePhoneNumber2 = useCallback((e) => {
-    if (e.target.value.trim().match(/[^0-9０-９]+/)) {
-      alert("数字を入力してください");
-      return;
-    }
+    setPhoneNumberError(() => {
+      return "";
+    });
     console.log("This is handlePhoneNumber2 process .... ");
     /*if (e.target.value.trim().length === 0) {*/
     setPhoneNumber((old) => {
       console.log("This is setPhoneNumber of handlePhoneNumber2 preocess...");
       return {
         ...old,
-        number2: {
-          text: e.target.value.trim(),
-          flag: !(e.target.value.trim().length === 0),
-        },
+        number2: e.target.value.trim(),
       };
-      /*return e.target.value.trim().length === 0
-          ? {
-              number1: {
-                text: phoneNumber.number1.text,
-                flag: phoneNumber.number1.flag,
-              },
-
-              number2: { text: e.target.value.trim(), flag: false },
-
-              number3: {
-                text: phoneNumber.number3.text,
-                flag: phoneNumber.number3.flag,
-              },
-            }
-          : {
-              number1: {
-                text: phoneNumber.number1.text,
-                flag: phoneNumber.number1.flag,
-              },
-
-              number2: { text: e.target.value, flag: true },
-
-              number3: {
-                text: phoneNumber.number3.text,
-                flag: phoneNumber.number3.flag,
-              },
-            };*/
     });
   }, []);
 
   const handlePhoneNumber3 = useCallback((e) => {
     if (e.target.value.trim().match(/[^0-9０-９]+/)) {
-      alert("数字を入力してください");
+      /*alert("数字を入力してください");*/
+      setPhoneNumberError(() => {
+        return "数字を入力してください";
+      });
       return;
     }
+    setPhoneNumberError(() => {
+      return "";
+    });
     console.log("This is handlePhoneNumber3 process .... ");
-    /*if (e.target.value.trim().length === 0) {*/
     setPhoneNumber((old) => {
       console.log("This is setPhoneNumber of handlePhoneNumber3 preocess...");
       return {
         ...old,
-        number3: {
-          text: e.target.value.trim(),
-          flag: !(e.target.value.trim().length === 0),
-        },
+        number3: e.target.value.trim(),
       };
-
-      /*return e.target.value.trim().length === 0
-        ? {
-            number1: {
-              text: old.number1.text,
-              flag: old.number1.flag,
-            },
-            number2: {
-              text: old.number2.text,
-              flag: old.number2.flag,
-            },
-            number3: { text: e.target.value.trim(), flag: false },
-          }
-        : {
-            number1: {
-              text: old.number1.text,
-              flag: old.number1.flag,
-            },
-
-            number2: {
-              text: old.number2.text,
-              flag: old.number2.flag,
-            },
-            number3: { text: e.target.value, flag: true },
-          };*/
-      /*return {
-        number1: {
-          text: old.number1.text,
-          flag: old.number1.flag,
-        },
-
-        number2: {
-          text: old.number2.text,
-          flag: old.number2.flag,
-        },
-        number3: { text: e.target.value, flag: true },
-      };*/
     });
   }, []);
 
-  /*
-  const handlePhoneNumber3 = useCallback((e) => {
-    if (e.target.value.trim().match(/[^0-9０-９]+/)) {
-      alert("数字を入力してください");
-      return;
-    }
-    if (e.target.value.trim().length === 0) {
-      setPhoneNumber3(() => {
-        return { text: e.target.value.trim(), flag: false };
-      });
-    } else {
-      setPhoneNumber3(() => {
-        return { text: e.target.value.trim(), flag: true };
-      });
-    }
-  }, []);
-*/
   const handleReservDate = useCallback((e) => {
     const now = new Date();
     /*今日の日付を保持するための変数*/
@@ -271,24 +139,24 @@ export default function Home() {
     /*  予約日が入力されていないときのエラメッセージを保存するための変数とsetの関数*/
     if (e.target.value.trim().length === 0) {
       setReservDate(() => {
-        return { text: "", flag: false };
+        return "";
       });
     } else {
       /*日付が過去のものでないかチェックする*/
       if (today > targetDate) {
         setReservDate(() => {
-          return { text: "", flag: false };
+          return "";
         });
       } else {
         setReservDate(() => {
-          return { text: e.target.value.trim(), flag: true };
+          return e.target.value.trim();
         });
       }
     }
   }, []);
 
   const checkInputData = useCallback(() => {
-    if (name.flag === false) {
+    if (name.length === 0) {
       setNameError(() => {
         return "名前は必須項目です。";
       });
@@ -298,18 +166,12 @@ export default function Home() {
       });
     }
     if (
-      phoneNumber.number1.flag === false ||
-      phoneNumber.number2.flag === false ||
-      phoneNumber.number3.flag === false
+      phoneNumber.number1.length === 0 ||
+      phoneNumber.number2.length === 0 ||
+      phoneNumber.number3.length === 0
     ) {
       setPhoneNumberError(() => {
         console.log("Phone Number is false");
-        console.log(`number1.flag=${phoneNumber.number1.flag}`);
-        console.log(`number1.text=${phoneNumber.number1.text}`);
-        console.log(`number2.flag=${phoneNumber.number2.flag}`);
-        console.log(`number2.text=${phoneNumber.number2.text}`);
-        console.log(`number3.flag=${phoneNumber.number3.flag}`);
-        console.log(`number3.text=${phoneNumber.number3.text}`);
         return "電話番号は必須項目です。";
       });
     } else {
@@ -319,7 +181,7 @@ export default function Home() {
       });
     }
 
-    if (reservDate.flag === false) {
+    if (reservDate.length === 0) {
       setReservDateError(() => {
         return "予約日は必須項目です。";
       });
@@ -329,11 +191,11 @@ export default function Home() {
       });
     }
   }, [
-    name.flag,
-    phoneNumber.number1.flag,
-    phoneNumber.number2.flag,
-    phoneNumber.number3.flag,
-    reservDate.flag,
+    name,
+    phoneNumber.number1,
+    phoneNumber.number2,
+    phoneNumber.number3,
+    reservDate,
   ]);
 
   return (
@@ -357,7 +219,7 @@ export default function Home() {
                   type="text"
                   id="name"
                   name="your-name"
-                  value={name.text}
+                  value={name}
                   onChange={handleNameChange}
                 />
                 <p id="name-error">{nameError}</p>
@@ -372,7 +234,7 @@ export default function Home() {
                   type="text"
                   id="tel1"
                   name="your-tel1"
-                  value={phoneNumber.number1.text}
+                  value={phoneNumber.number1}
                   onChange={handlePhoneNumber1}
                 />{" "}
                 -
@@ -380,7 +242,7 @@ export default function Home() {
                   type="text"
                   id="tel2"
                   name="your-tel2"
-                  value={phoneNumber.number2.text}
+                  value={phoneNumber.number2}
                   onChange={handlePhoneNumber2}
                 />{" "}
                 -
@@ -388,7 +250,7 @@ export default function Home() {
                   type="text"
                   id="tel3"
                   name="your-tel3"
-                  value={phoneNumber.number3.text}
+                  value={phoneNumber.number3}
                   onChange={handlePhoneNumber3}
                 />
                 <p id="tel-error">{phoneNumberError}</p>
@@ -403,7 +265,8 @@ export default function Home() {
                   type="date"
                   id="reservation"
                   name="your-reservation"
-                  value={reservDate.text}
+                  min={today}
+                  value={reservDate}
                   onChange={handleReservDate}
                 />{" "}
                 13時 ～ 14時
