@@ -6,7 +6,7 @@ export default function Home() {
   /* 名前を保存する変数とsetするための関数 */
   const [name, setName] = useState("");
   /* 名前が入力されていないときのエラメッセージを保存するための変数とsetの関数*/
-  const [nameError, setNameError] = useState("");
+  const [nameError, setNameError] = useState("名前の入力は必須です");
   /* 電話番号を保存するための変数 */
   const [phoneNumber, setPhoneNumber] = useState({
     number1: "",
@@ -14,13 +14,15 @@ export default function Home() {
     number3: "",
   });
   /* 電話番号が入力されていないときのエラメッセージを保存するための変数とsetの関数*/
-  const [phoneNumberError, setPhoneNumberError] = useState("");
+  const [phoneNumberError, setPhoneNumberError] =
+    useState("電話番号の入力は必須です");
 
   /* 予約日を保存する変数とsetするための関数 */
   /*const [reservDate, setReservDate] = useState({ text: "", flag: false });*/
   const [reservDate, setReservDate] = useState("");
   /*現在時刻を保持するための変数*/
-  const [reservDateError, setReservDateError] = useState("");
+  const [reservDateError, setReservDateError] =
+    useState("予約日の入力は必須です");
   const now = new Date();
   const nowMonth =
     now.getMonth() < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
@@ -51,6 +53,9 @@ export default function Home() {
     setName(() => {
       return e.target.value.trim();
     });
+    setNameError(() => {
+      return e.target.value.trim().length !== 0 ? "" : "名前の入力は必須です";
+    });
   }, []);
 
   const handleSubmit = (e) => {
@@ -66,67 +71,101 @@ export default function Home() {
     }
   };
 
-  const handlePhoneNumber1 = useCallback((e) => {
-    if (e.target.value.trim().match(/[^0-9０-９]+/)) {
-      /*alert("数字を入力してください");*/
-      setPhoneNumberError(() => {
-        return "数字を入力してください";
-      });
-      return;
-    }
-    setPhoneNumberError(() => {
-      return "";
-    });
-    setPhoneNumber((old) => {
-      return {
-        ...old,
-        number1: e.target.value.trim(),
-      };
-    });
-  }, []);
+  const handlePhoneNumber1 = useCallback(
+    (e) => {
+      if (e.target.value.trim().match(/[^0-9０-９]+/)) {
+        /*alert("数字を入力してください");*/
+        setPhoneNumberError(() => {
+          return "数字を入力してください";
+        });
+        return;
+      }
 
-  const handlePhoneNumber2 = useCallback((e) => {
-    if (e.target.value.trim().match(/[^0-9０-９]+/)) {
-      /*alert("数字を入力してください");*/
-      setPhoneNumberError(() => {
-        return "数字を入力してください";
+      setPhoneNumber((old) => {
+        return {
+          ...old,
+          number1: e.target.value.trim(),
+        };
       });
-      return;
-    }
-    setPhoneNumberError(() => {
-      return "";
-    });
-    console.log("This is handlePhoneNumber2 process .... ");
-    /*if (e.target.value.trim().length === 0) {*/
-    setPhoneNumber((old) => {
-      console.log("This is setPhoneNumber of handlePhoneNumber2 preocess...");
-      return {
-        ...old,
-        number2: e.target.value.trim(),
-      };
-    });
-  }, []);
 
-  const handlePhoneNumber3 = useCallback((e) => {
-    if (e.target.value.trim().match(/[^0-9０-９]+/)) {
-      /*alert("数字を入力してください");*/
       setPhoneNumberError(() => {
-        return "数字を入力してください";
+        return e.target.value.trim().length !== 0 &&
+          phoneNumber.number2.length !== 0 &&
+          phoneNumber.number3.length !== 0
+          ? ""
+          : "電話番号の入力は必須です";
       });
-      return;
-    }
-    setPhoneNumberError(() => {
-      return "";
-    });
-    console.log("This is handlePhoneNumber3 process .... ");
-    setPhoneNumber((old) => {
-      console.log("This is setPhoneNumber of handlePhoneNumber3 preocess...");
-      return {
-        ...old,
-        number3: e.target.value.trim(),
-      };
-    });
-  }, []);
+    },
+    [phoneNumber.number2, phoneNumber.number3]
+  );
+
+  const handlePhoneNumber2 = useCallback(
+    (e) => {
+      if (e.target.value.trim().match(/[^0-9０-９]+/)) {
+        /*alert("数字を入力してください");*/
+        setPhoneNumberError(() => {
+          return "数字を入力してください";
+        });
+        return;
+      }
+      /*
+      setPhoneNumberError(() => {
+        return "";
+      });*/
+      console.log("This is handlePhoneNumber2 process .... ");
+      /*if (e.target.value.trim().length === 0) {*/
+      setPhoneNumber((old) => {
+        console.log("This is setPhoneNumber of handlePhoneNumber2 preocess...");
+        return {
+          ...old,
+          number2: e.target.value.trim(),
+        };
+      });
+
+      setPhoneNumberError(() => {
+        return e.target.value.trim().length !== 0 &&
+          phoneNumber.number1.length !== 0 &&
+          phoneNumber.number3.length !== 0
+          ? ""
+          : "電話番号の入力は必須です";
+      });
+    },
+    [phoneNumber.number1, phoneNumber.number3]
+  );
+
+  const handlePhoneNumber3 = useCallback(
+    (e) => {
+      if (e.target.value.trim().match(/[^0-9０-９]+/)) {
+        /*alert("数字を入力してください");*/
+        setPhoneNumberError(() => {
+          return "数字を入力してください";
+        });
+        return;
+      }
+
+      /*      setPhoneNumberError(() => {
+        return "";
+      });*/
+
+      console.log("This is handlePhoneNumber3 process .... ");
+      setPhoneNumber((old) => {
+        console.log("This is setPhoneNumber of handlePhoneNumber3 preocess...");
+        return {
+          ...old,
+          number3: e.target.value.trim(),
+        };
+      });
+
+      setPhoneNumberError(() => {
+        return e.target.value.trim().length !== 0 &&
+          phoneNumber.number1.length !== 0 &&
+          phoneNumber.number2.length !== 0
+          ? ""
+          : "電話番号の入力は必須です";
+      });
+    },
+    [phoneNumber.number1, phoneNumber.number2]
+  );
 
   const handleReservDate = useCallback((e) => {
     const now = new Date();
@@ -141,15 +180,24 @@ export default function Home() {
       setReservDate(() => {
         return "";
       });
+      setReservDateError(() => {
+        return "予約日の入力は必須です";
+      });
     } else {
       /*日付が過去のものでないかチェックする*/
       if (today > targetDate) {
         setReservDate(() => {
           return "";
         });
+        setReservDateError(() => {
+          return "予約日の入力は必須です";
+        });
       } else {
         setReservDate(() => {
           return e.target.value.trim();
+        });
+        setReservDateError(() => {
+          return "";
         });
       }
     }
@@ -206,30 +254,31 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <div>
+        <div className={styles.inputform_container}>
           <h1>セミナー お申込みフォーム</h1>
-          <form action="#" onSubmit={handleSubmit}>
-            <dl>
-              <dt>
+          <form action="#" onSubmit={handleSubmit} className={styles.inputform}>
+            <dl className={styles.inputform_dl}>
+              <dt className={styles.inputform_dl_dt}>
                 <label htmlFor="name">名前</label>
                 <span>必須</span>
               </dt>
-              <dd>
+              <dd className={styles.inputform_dl_dd}>
                 <input
+                  className={styles.inputform_dl_dd_input}
                   type="text"
                   id="name"
                   name="your-name"
                   value={name}
                   onChange={handleNameChange}
                 />
-                <p id="name-error">{nameError}</p>
+                <p className={styles.inputform_dd_p}>{nameError}</p>
               </dd>
 
-              <dt>
+              <dt className={styles.inputform_dl_dt}>
                 <label htmlFor="tel1">電話番号</label>
                 <span>必須</span>
               </dt>
-              <dd>
+              <dd className={styles.inputform_dl_dd}>
                 <input
                   type="text"
                   id="tel1"
@@ -256,11 +305,11 @@ export default function Home() {
                 <p id="tel-error">{phoneNumberError}</p>
               </dd>
 
-              <dt>
+              <dt className={styles.inputform_dl_dt}>
                 <label htmlFor="reservation">予約日</label>
                 <span>必須</span>
               </dt>
-              <dd>
+              <dd className={styles.inputform_dl_dd}>
                 <input
                   type="date"
                   id="reservation"
@@ -273,7 +322,7 @@ export default function Home() {
                 <p id="reservation-error">{reservDateError}</p>
               </dd>
 
-              <dt>
+              <dt className={styles.inputform_dl_dt}>
                 受講形式<span>必須</span>
               </dt>
               <dd>
@@ -302,7 +351,7 @@ export default function Home() {
 
             {selectedMeetingPlaceOption === "online" ? (
               <div>
-                <p>
+                <p className={styles.information}>
                   当日はオンライン会議システムを使用いたします。
                   <br />
                   ご受講にあたり、端末とネットワーク環境が必要になりますのでご準備をお願いいたします。
@@ -312,7 +361,7 @@ export default function Home() {
               </div>
             ) : (
               <div>
-                <p>
+                <p className={styles.information}>
                   【会場情報】
                   <br />
                   会場：代々木GIプラザ3F Room1
@@ -323,7 +372,7 @@ export default function Home() {
                 </p>
               </div>
             )}
-            <div>
+            <div className={styles.submit_button_div}>
               <button
                 id="submit-button"
                 type="submit"
