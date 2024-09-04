@@ -59,15 +59,32 @@ export default function Home() {
   }, []);
 
   const handleSubmit = (e) => {
+    /*e.stopPropagation();*/
     e.preventDefault();
     if (
       name.length !== 0 &&
-      phoneNumber.number1 !== 0 &&
-      phoneNumber.number2 !== 0 &&
-      phoneNumber.number3 !== 0 &&
-      reservDate !== 0
+      phoneNumber.number1.length !== 0 &&
+      phoneNumber.number2.length !== 0 &&
+      phoneNumber.number3.length !== 0 &&
+      reservDate.length !== 0
     ) {
       console.log("submit process ....");
+    }
+  };
+
+  const checkKeyDown = (e) => {
+    // e.targetがtextarea, button, anchorの場合はEnterを許可
+    if (
+      e.key === "Enter" &&
+      (e.target instanceof HTMLTextAreaElement ||
+        e.target instanceof HTMLButtonElement ||
+        e.target instanceof HTMLAnchorElement)
+    ) {
+      return;
+    }
+
+    if (e.key === "Enter") {
+      e.preventDefault();
     }
   };
 
@@ -256,7 +273,12 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.inputform_container}>
           <h1>セミナー お申込みフォーム</h1>
-          <form action="#" onSubmit={handleSubmit} className={styles.inputform}>
+          <form
+            action="#"
+            onSubmit={handleSubmit}
+            className={styles.inputform}
+            onKeyDown={checkKeyDown}
+          >
             <dl className={styles.inputform_dl}>
               <dt className={styles.inputform_dl_dt}>
                 <label htmlFor="name">名前</label>
@@ -271,7 +293,7 @@ export default function Home() {
                   value={name}
                   onChange={handleNameChange}
                 />
-                <p className={styles.inputform_dd_p}>{nameError}</p>
+                <p className={styles.inputform_dl_dd_p}>{nameError}</p>
               </dd>
 
               <dt className={styles.inputform_dl_dt}>
@@ -302,7 +324,7 @@ export default function Home() {
                   value={phoneNumber.number3}
                   onChange={handlePhoneNumber3}
                 />
-                <p id="tel-error">{phoneNumberError}</p>
+                <p className={styles.inputform_dl_dd_p}>{phoneNumberError}</p>
               </dd>
 
               <dt className={styles.inputform_dl_dt}>
@@ -319,7 +341,7 @@ export default function Home() {
                   onChange={handleReservDate}
                 />{" "}
                 13時 ～ 14時
-                <p id="reservation-error">{reservDateError}</p>
+                <p className={styles.inform_dl_dd_p}>{reservDateError}</p>
               </dd>
 
               <dt className={styles.inputform_dl_dt}>
@@ -345,7 +367,7 @@ export default function Home() {
                   checked={selectedMeetingPlaceOption === "venue"}
                 />
                 <label htmlFor="venue">会場で受講</label>
-                <p id="lesson-error"></p>
+                <p className={styles.inform_dl_dd_p}></p>
               </dd>
             </dl>
 
