@@ -98,9 +98,9 @@ export default function Home() {
         return;
       }
 
-      if (e.target.value.trim().length > 3) {
+      if (e.target.value.trim().length > 5) {
         setPhoneNumberError(() => {
-          return "市外局番は2桁または3桁です";
+          return "市外局番は2桁から5桁です";
         });
         return;
       }
@@ -135,7 +135,7 @@ export default function Home() {
 
       if (e.target.value.trim().length > 4) {
         setPhoneNumberError(() => {
-          return "市内局番は3桁または4桁です";
+          return "市内局番は4桁以下です";
         });
         return;
       }
@@ -266,9 +266,9 @@ export default function Home() {
       });
     }
 
-    /* 東京03のチェック*/
+    /* 東京03のチェック 大阪06のチェック*/
     if (
-      phoneNumber.number1 === "03" &&
+      (phoneNumber.number1 === "03" || phoneNumber.number1 == "06") &&
       (phoneNumber.number2.length !== 4 || phoneNumber.number3.length !== 4)
     ) {
       setPhoneNumberError(() => {
@@ -287,11 +287,16 @@ export default function Home() {
         return "入力された電話番号は正しくありません";
       });
     }
-    /*東京03以外の固定電話のチェック*/
+    /*東京03 大阪06以外の固定電話のチェック*/
     if (
-      !phoneNumber.number1.match(/^0[5-9]0/) &&
-      phoneNumber.number1.length === 3 &&
-      (phoneNumber.number2.length !== 3 || phoneNumber.number3.length !== 4)
+      (!phoneNumber.number1.match(/^0[5-9]0/) &&
+        ((phoneNumber.number1.length === 3 &&
+          phoneNumber.number2.length !== 3) ||
+          (phoneNumber.number1.length === 4 &&
+            phoneNumber.number2.length !== 2) ||
+          (phoneNumber.number1.length === 5 &&
+            phoneNumber.number2.length !== 1))) ||
+      phoneNumber.number3.length !== 4
     ) {
       setPhoneNumberError(() => {
         console.log("Phone Number is false");
