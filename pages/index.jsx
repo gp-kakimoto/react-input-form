@@ -98,6 +98,13 @@ export default function Home() {
         return;
       }
 
+      if (e.target.value.trim().length > 3) {
+        setPhoneNumberError(() => {
+          return "市外局番は2桁または3桁です";
+        });
+        return;
+      }
+
       setPhoneNumber((old) => {
         return {
           ...old,
@@ -122,6 +129,13 @@ export default function Home() {
         /*alert("数字を入力してください");*/
         setPhoneNumberError(() => {
           return "数字を入力してください";
+        });
+        return;
+      }
+
+      if (e.target.value.trim().length > 4) {
+        setPhoneNumberError(() => {
+          return "市内局番は3桁または4桁です";
         });
         return;
       }
@@ -160,6 +174,12 @@ export default function Home() {
         return;
       }
 
+      if (e.target.value.trim().length > 4) {
+        setPhoneNumberError(() => {
+          return "加入者番号は4桁です";
+        });
+        return;
+      }
       /*      setPhoneNumberError(() => {
         return "";
       });*/
@@ -243,6 +263,38 @@ export default function Home() {
       setPhoneNumberError(() => {
         console.log("Phone Number is True");
         return "";
+      });
+    }
+
+    /* 東京03のチェック*/
+    if (
+      phoneNumber.number1 === "03" &&
+      (phoneNumber.number2.length !== 4 || phoneNumber.number3.length !== 4)
+    ) {
+      setPhoneNumberError(() => {
+        console.log("Phone Number is false");
+        return "入力された電話番号は正しくありません";
+      });
+    }
+
+    /*携帯電話及びIP電話のチェック*/
+    if (
+      phoneNumber.number1.match(/^0[5-9]0/) &&
+      (phoneNumber.number2.length !== 4 || phoneNumber.number3.length !== 4)
+    ) {
+      setPhoneNumberError(() => {
+        console.log("Phone Number is false");
+        return "入力された電話番号は正しくありません";
+      });
+    }
+    /*東京03以外の固定電話のチェック*/
+    if (
+      phoneNumber.number1.length === 3 &&
+      (phoneNumber.number2.length !== 3 || phoneNumber.number3.length !== 4)
+    ) {
+      setPhoneNumberError(() => {
+        console.log("Phone Number is false");
+        return "入力された電話番号は正しくありません";
       });
     }
 
