@@ -289,6 +289,7 @@ export default function Home() {
     }
     /*東京03以外の固定電話のチェック*/
     if (
+      !phoneNumber.number1.match(/^0[5-9]0/) &&
       phoneNumber.number1.length === 3 &&
       (phoneNumber.number2.length !== 3 || phoneNumber.number3.length !== 4)
     ) {
