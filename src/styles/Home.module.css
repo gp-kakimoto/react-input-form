@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
 }
-
+/* 
 .main {
   padding: 5rem 0;
   flex: 1;
@@ -25,9 +25,11 @@
 .inputform_container h1 {
   text-align: center;
 }
+ */
 /*
 css for input form ここから
 */
+/* 
 .inputform {
   width: 100%;
   height: auto;
@@ -48,7 +50,6 @@ css for input form ここから
   width: 30%;
   margin: 0px;
   padding: 2px;
-  /*height: 45px;*/
   border-style: solid;
   border-color: white;
   background-color: #0070f3;
@@ -87,11 +88,11 @@ css for input form ここから
 
 .information {
   padding-left: 50px;
-}
+} */
 /*
 css for input form ここまで
 */
-.footer {
+/* .footer {
   width: 100%;
   height: 100px;
   border-top: 1px solid #eaeaea;
@@ -109,7 +110,7 @@ css for input form ここまで
   justify-content: center;
   align-items: center;
 }
-
+ */
 .title a {
   color: #0070f3;
   text-decoration: none;
