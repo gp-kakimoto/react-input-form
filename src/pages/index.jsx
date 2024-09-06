@@ -100,7 +100,7 @@ export default function Home() {
 
       if (e.target.value.trim().length > 5) {
         setPhoneNumberError(() => {
-          return "市外局番は2桁から5桁です";
+          return "市外局番は5桁以下です";
         });
         return;
       }
