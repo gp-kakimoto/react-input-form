@@ -1,9 +1,9 @@
 import styles from "./Form.module.css";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { FormOfName } from "../FormOfName";
 import { FormOfPhoneNumber } from "../FormOfPhoneNumber";
 import { FormOfReservDate } from "../FormOfReservDate";
-
+import { FormOfMeetingPlace } from "../FormOfMeetingPlace";
 export const Form = () => {
   /* 名前を保存する変数とsetするための関数 */
   const [name, setName] = useState("");
@@ -40,7 +40,8 @@ export const Form = () => {
   }, [nowYear, nowMonth, nowDate]);
   console.log(`today = ${today}`);
   */
-  const [selectedMeetingPlaceOption, setSelectedMeetingPlaceOption] =
+
+  /* const [selectedMeetingPlaceOption, setSelectedMeetingPlaceOption] =
     useState("online");
 
   const handleSelectedMeetingPlaceOptionChange = useCallback((e) => {
@@ -48,7 +49,7 @@ export const Form = () => {
       return e.target.value;
     });
   }, []);
-
+*/
   const handleSubmit = (e) => {
     /*e.stopPropagation();*/
     e.preventDefault();
@@ -206,84 +207,28 @@ export const Form = () => {
         className={styles.inputform}
         onKeyDown={checkKeyDown}
       >
-        <dl className={styles.inputform_dl}>
-          <FormOfName
-            name={name}
-            setName={setName}
-            nameError={nameError}
-            setNameError={setNameError}
-          />
-          <FormOfPhoneNumber
-            phoneNumber={phoneNumber}
-            setPhoneNumber={setPhoneNumber}
-            phoneNumberError={phoneNumberError}
-            setPhoneNumberError={setPhoneNumberError}
-          />
+        <FormOfName
+          name={name}
+          setName={setName}
+          nameError={nameError}
+          setNameError={setNameError}
+        />
+        <FormOfPhoneNumber
+          phoneNumber={phoneNumber}
+          setPhoneNumber={setPhoneNumber}
+          phoneNumberError={phoneNumberError}
+          setPhoneNumberError={setPhoneNumberError}
+        />
 
-          <FormOfReservDate
-            reservDate={reservDate}
-            setReservDate={setReservDate}
-            reservDateError={reservDateError}
-            setReservDateError={setReservDateError}
-          />
-
-          <dt className={styles.inputform_dl_dt}>
-            受講形式<span>必須</span>
-          </dt>
-          <dd>
-            <input
-              type="radio"
-              id="online"
-              name="your-lesson"
-              value="online"
-              onChange={handleSelectedMeetingPlaceOptionChange}
-              checked={selectedMeetingPlaceOption === "online"}
-            />
-            <label htmlFor="online">オンラインで受講</label>
-            <br />
-            <input
-              type="radio"
-              id="venue"
-              name="your-lesson"
-              value="venue"
-              onChange={handleSelectedMeetingPlaceOptionChange}
-              checked={selectedMeetingPlaceOption === "venue"}
-            />
-            <label htmlFor="venue">会場で受講</label>
-            <p className={styles.inform_dl_dd_p}></p>
-          </dd>
-        </dl>
-
-        {selectedMeetingPlaceOption === "online" ? (
-          <div>
-            <p className={styles.information}>
-              当日はオンライン会議システムを使用いたします。
-              <br />
-              ご受講にあたり、端末とネットワーク環境が必要になりますのでご準備をお願いいたします。
-              <br />
-              参加方法については、前日までに別途ご案内を差し上げます。
-            </p>
-          </div>
-        ) : (
-          <div>
-            <p className={styles.information}>
-              【会場情報】
-              <br />
-              会場：代々木GIプラザ3F Room1
-              <br />
-              住所：〒151-0053　東京都渋谷区代々木1-1-1
-              <br />
-              電話番号：00-0000-0000
-            </p>
-          </div>
-        )}
+        <FormOfReservDate
+          reservDate={reservDate}
+          setReservDate={setReservDate}
+          reservDateError={reservDateError}
+          setReservDateError={setReservDateError}
+        />
+        <FormOfMeetingPlace />
         <div className={styles.submit_button_div}>
-          <button
-            id="submit-button"
-            type="submit"
-            value=""
-            onClick={checkInputData}
-          >
+          <button type="submit" value="" onClick={checkInputData}>
             上記の内容で申し込む
           </button>
         </div>

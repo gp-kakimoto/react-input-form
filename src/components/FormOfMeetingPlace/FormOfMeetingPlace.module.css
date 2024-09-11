@@ -10,7 +10,7 @@
 .inputform_dl_dt {
   width: 30%;
   margin: 0px;
-  padding: 1px;
+  padding: 2px;
   /*height: 45px;*/
   border-style: solid;
   border-color: white;
@@ -42,4 +42,7 @@
   padding: 0px;
   color: red;
   font-size: smaller;
+}
+.information {
+  padding-left: 50px;
 }

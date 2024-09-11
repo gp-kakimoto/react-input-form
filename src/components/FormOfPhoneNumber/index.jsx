@@ -1,5 +1,5 @@
 import styles from "./FormOfPhoneNumber.module.css";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback } from "react";
 
 export const FormOfPhoneNumber = (props) => {
   /* 電話番号を保存するための変数 */

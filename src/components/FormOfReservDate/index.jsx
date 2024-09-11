@@ -78,7 +78,7 @@ export const FormOfReservDate = (props) => {
           onChange={handleReservDate}
         />{" "}
         13時 ～ 14時
-        <p className={styles.inform_dl_dd_p}>{props.reservDateError}</p>
+        <p className={styles.inputform_dl_dd_p}>{props.reservDateError}</p>
       </dd>
     </dl>
   );
