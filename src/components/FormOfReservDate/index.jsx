@@ -1,5 +1,5 @@
 import styles from "./FormOfReservDate.module.css";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 export const FormOfReservDate = (props) => {
   /*  
@@ -8,6 +8,12 @@ export const FormOfReservDate = (props) => {
     useState("予約日の入力は必須です");
 
  */
+
+  /* 予約日を保存する変数とsetするための関数 */
+  const [reservDate, setReservDate] = useState("");
+  /*現在時刻を保持するための変数*/
+  const [reservDateError, setReservDateError] =
+    useState("予約日の入力は必須です");
 
   const now = new Date();
   const nowMonth =
@@ -32,30 +38,47 @@ export const FormOfReservDate = (props) => {
     console.log(`targetDate=${targetDate}`);
     /*  予約日が入力されていないときのエラメッセージを保存するための変数とsetの関数*/
     if (e.target.value.trim().length === 0) {
-      props.setReservDate(() => {
+      setReservDate(() => {
         return "";
       });
-      props.setReservDateError(() => {
+      setReservDateError(() => {
         return "予約日の入力は必須です";
       });
     } else {
       /*日付が過去のものでないかチェックする*/
       if (today > targetDate) {
-        props.setReservDate(() => {
+        setReservDate(() => {
           return "";
         });
-        props.setReservDateError(() => {
+        setReservDateError(() => {
           return "予約日の入力は必須です";
         });
+
+        props.setFlagOfForm((old) => {
+          return { ...old, flagOfReservDate: false };
+        });
       } else {
-        props.setReservDate(() => {
+        setReservDate(() => {
           return e.target.value.trim();
         });
-        props.setReservDateError(() => {
+        setReservDateError(() => {
           return "";
+        });
+        props.setFlagOfForm((old) => {
+          return { ...old, flagOfReservDate: true };
         });
       }
     }
+    /* 
+    if (reservDate.length === 0) {
+      setReservDateError(() => {
+        return "予約日は必須項目です。";
+      });
+    } else {
+      setReservDateError(() => {
+        return "";
+      });
+    } */
   }, []);
 
   const properties = {
@@ -74,11 +97,11 @@ export const FormOfReservDate = (props) => {
         <input
           type="date"
           min={today}
-          value={props.reservDate}
+          value={reservDate}
           onChange={handleReservDate}
         />{" "}
         13時 ～ 14時
-        <p className={styles.inputform_dl_dd_p}>{props.reservDateError}</p>
+        <p className={styles.inputform_dl_dd_p}>{reservDateError}</p>
       </dd>
     </dl>
   );
