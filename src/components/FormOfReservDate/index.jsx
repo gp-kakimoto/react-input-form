@@ -1,14 +1,7 @@
-import styles from "./FormOfReservDate.module.css";
 import { useCallback, useMemo, useState } from "react";
+import { FormContainer } from "../FormContainer";
 
 export const FormOfReservDate = (props) => {
-  /*  
-  const [reservDate, setReservDate] = useState("");
-  const [reservDateError, setReservDateError] =
-    useState("予約日の入力は必須です");
-
- */
-
   /* 予約日を保存する変数とsetするための関数 */
   const [reservDate, setReservDate] = useState("");
   /*現在時刻を保持するための変数*/
@@ -69,16 +62,6 @@ export const FormOfReservDate = (props) => {
         });
       }
     }
-    /* 
-    if (reservDate.length === 0) {
-      setReservDateError(() => {
-        return "予約日は必須項目です。";
-      });
-    } else {
-      setReservDateError(() => {
-        return "";
-      });
-    } */
   }, []);
 
   const properties = {
@@ -87,13 +70,9 @@ export const FormOfReservDate = (props) => {
     required: "必須",
   };
 
-  return (
-    <dl className={styles.inputform_dl}>
-      <dt className={styles.inputform_dl_dt}>
-        <label htmlFor={properties.htmlFor}>{properties.label}</label>
-        <span>{properties.required}</span>
-      </dt>
-      <dd className={styles.inputform_dl_dd}>
+  const input = () => {
+    return (
+      <div>
         <input
           type="date"
           min={today}
@@ -101,8 +80,15 @@ export const FormOfReservDate = (props) => {
           onChange={handleReservDate}
         />{" "}
         13時 ～ 14時
-        <p className={styles.inputform_dl_dd_p}>{reservDateError}</p>
-      </dd>
-    </dl>
+      </div>
+    );
+  };
+
+  return (
+    <FormContainer
+      properties={properties}
+      input={input()}
+      errorMessage={reservDateError}
+    />
   );
 };

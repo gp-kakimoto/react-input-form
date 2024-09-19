@@ -1,6 +1,5 @@
-import styles from "./FormOfPhoneNumber.module.css";
 import { useCallback, useEffect, useState } from "react";
-
+import { FormContainer } from "../FormContainer";
 export const FormOfPhoneNumber = (props) => {
   /* 電話番号を保存するための変数 */
   const [phoneNumber, setPhoneNumber] = useState({
@@ -62,6 +61,23 @@ export const FormOfPhoneNumber = (props) => {
       return;
     }
 
+    if (
+      phoneNumber.number1.length === 2 &&
+      phoneNumber.number1 !== "03" &&
+      phoneNumber.number1.length === 2 &&
+      phoneNumber.number1 !== "06"
+    ) {
+      setPhoneNumberError(() => {
+        console.log("Phone Number is false NOT 03 06 Format");
+        return "入力された電話番号は正しくありません";
+      });
+
+      props.setFlagOfForm((old) => {
+        return { ...old, flagOfPhoneNumber: false };
+      });
+      return;
+    }
+
     /*携帯電話及びIP電話のチェック*/
     if (
       phoneNumber.number1.match(/^0[5-9]0/) &&
@@ -79,14 +95,15 @@ export const FormOfPhoneNumber = (props) => {
     }
     /*東京03 大阪06以外の固定電話のチェック*/
     if (
-      (!phoneNumber.number1.match(/^0[5-9]0/) &&
+      phoneNumber.number1.length !== 2 &&
+      ((!phoneNumber.number1.match(/^0[5-9]0/) &&
         ((phoneNumber.number1.length === 3 &&
           phoneNumber.number2.length !== 3) ||
           (phoneNumber.number1.length === 4 &&
             phoneNumber.number2.length !== 2) ||
           (phoneNumber.number1.length === 5 &&
             phoneNumber.number2.length !== 1))) ||
-      phoneNumber.number3.length !== 4
+        phoneNumber.number3.length !== 4)
     ) {
       setPhoneNumberError(() => {
         console.log("Phone Number is false");
@@ -147,23 +164,6 @@ export const FormOfPhoneNumber = (props) => {
           ? ""
           : "電話番号の入力は必須です";
       });
-
-      /*if (
-        e.target.value.trim().length === 0 ||
-        phoneNumber.number2.length === 0 ||
-        phoneNumber.number3.length === 0
-      ) {
-        setPhoneNumberError(() => {
-          console.log("Phone Number is false");
-          return "電話番号は必須項目です。";
-        });
-        return;
-      } else {
-        setPhoneNumberError(() => {
-          console.log("Phone Number is True");
-          return "";
-        });
-      }*/
     },
 
     [phoneNumber.number2, phoneNumber.number3]
@@ -265,16 +265,14 @@ export const FormOfPhoneNumber = (props) => {
   );
 
   const properties = {
+    htmlFor: "tel1",
     label: "電話番号",
     required: "必須",
   };
-  return (
-    <dl className={styles.inputform_dl}>
-      <dt className={styles.inputform_dl_dt}>
-        <label htmlFor="tel1">{properties.label}</label>
-        <span>{properties.required}</span>
-      </dt>
-      <dd className={styles.inputform_dl_dd}>
+
+  const input = () => {
+    return (
+      <div>
         <input
           type="text"
           value={phoneNumber.number1}
@@ -292,8 +290,14 @@ export const FormOfPhoneNumber = (props) => {
           value={phoneNumber.number3}
           onChange={handlePhoneNumber3}
         />
-        <p className={styles.inputform_dl_dd_p}>{phoneNumberError}</p>
-      </dd>
-    </dl>
+      </div>
+    );
+  };
+  return (
+    <FormContainer
+      properties={properties}
+      input={input()}
+      errorMessage={phoneNumberError}
+    />
   );
 };

@@ -1,5 +1,6 @@
 import styles from "./FormOfMeetingPlace.module.css";
 import { useCallback, useState } from "react";
+import { FormContainer } from "../FormContainer";
 
 export const FormOfMeetingPlace = () => {
   const [selectedMeetingPlaceOption, setSelectedMeetingPlaceOption] =
@@ -12,37 +13,38 @@ export const FormOfMeetingPlace = () => {
   }, []);
 
   const properties = {
+    label: "会場",
+    required: "必須",
     type: "radio",
     online: "online",
     venue: "venue",
   };
 
+  const input = () => {
+    return (
+      <div>
+        <input
+          type={properties.type}
+          value={properties.online}
+          onChange={handleSelectedMeetingPlaceOptionChange}
+          checked={selectedMeetingPlaceOption === properties.online}
+        />
+        <label htmlFor={properties.online}>オンラインで受講</label>
+        <br />
+        <input
+          type={properties.type}
+          value={properties.venue}
+          onChange={handleSelectedMeetingPlaceOptionChange}
+          checked={selectedMeetingPlaceOption === properties.venue}
+        />
+        <label htmlFor={properties.venue}>会場で受講</label>
+      </div>
+    );
+  };
+
   return (
     <div>
-      <dl className={styles.inputform_dl}>
-        <dt className={styles.inputform_dl_dt}>
-          受講形式<span>必須</span>
-        </dt>
-        <dd>
-          <input
-            type={properties.type}
-            value={properties.online}
-            onChange={handleSelectedMeetingPlaceOptionChange}
-            checked={selectedMeetingPlaceOption === properties.online}
-          />
-          <label htmlFor={properties.online}>オンラインで受講</label>
-          <br />
-          <input
-            type={properties.type}
-            value={properties.venue}
-            onChange={handleSelectedMeetingPlaceOptionChange}
-            checked={selectedMeetingPlaceOption === properties.venue}
-          />
-          <label htmlFor={properties.venue}>会場で受講</label>
-          <p className={styles.inform_dl_dd_p}></p>
-        </dd>
-      </dl>
-
+      <FormContainer properties={properties} input={input()} errorMessage="" />
       {selectedMeetingPlaceOption === properties.online ? (
         <div>
           <p className={styles.information}>
