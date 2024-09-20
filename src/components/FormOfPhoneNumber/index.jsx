@@ -126,7 +126,6 @@ export const FormOfPhoneNumber = (props) => {
     (e) => {
       /*if (e.target.value.trim().match(/[^0-9０-９]+/)) {*/
       if (e.target.value.trim().match(/[^0-9]+/)) {
-        /*alert("数字を入力してください");*/
         setPhoneNumberError(() => {
           return "数字を入力してください";
         });
@@ -161,7 +160,6 @@ export const FormOfPhoneNumber = (props) => {
     (e) => {
       /*if (e.target.value.trim().match(/[^0-9０-９]+/)) {*/
       if (e.target.value.trim().match(/[^0-9]+/)) {
-        /*alert("数字を入力してください");*/
         setPhoneNumberError(() => {
           return "数字を入力してください";
         });
@@ -204,7 +202,6 @@ export const FormOfPhoneNumber = (props) => {
     (e) => {
       /*if (e.target.value.trim().match(/[^0-9０-９]+/)) {*/
       if (e.target.value.trim().match(/[^0-9]+/)) {
-        /*alert("数字を入力してください");*/
         setPhoneNumberError(() => {
           return "数字を入力してください";
         });

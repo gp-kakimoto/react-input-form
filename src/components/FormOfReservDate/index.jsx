@@ -9,11 +9,17 @@ export const FormOfReservDate = (props) => {
     useState("予約日の入力は必須です");
 
   const now = new Date();
+  const hour = now.getHours();
+  if (hour >= 13) {
+    now.setDate(now.getDate() + 1);
+  }
   const nowMonth =
     now.getMonth() < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
 
   const nowDate = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
-
+  /*const tomorrow = new Date(2017, 3 - 1, 31);*/
+  /*tomorrow.setDate(tomorrow.getDate() + 1);*/
+  /*console.log(tomorrow);*/
   const nowYear = now.getFullYear();
   console.log(`nowDate=${nowDate}`);
   const today = useMemo(() => {
@@ -22,12 +28,12 @@ export const FormOfReservDate = (props) => {
   console.log(`today = ${today}`);
 
   const handleReservDate = useCallback((e) => {
-    const now = new Date();
     /*今日の日付を保持するための変数*/
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    /* const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); */
     console.log(e.target.value);
     const targetDate = new Date(e.target.value.trim());
     console.log(`today=${today}`);
+    console.log(`now=${now}`);
     console.log(`targetDate=${targetDate}`);
     /*  予約日が入力されていないときのエラメッセージを保存するための変数とsetの関数*/
     if (e.target.value.trim().length === 0) {
@@ -38,8 +44,7 @@ export const FormOfReservDate = (props) => {
         return "予約日の入力は必須です";
       });
     } else {
-      /*日付が過去のものでないかチェックする*/
-      if (today > targetDate) {
+      if (now.getDate() > targetDate.getDate()) {
         setReservDate(() => {
           return "";
         });
