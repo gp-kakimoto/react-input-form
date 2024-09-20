@@ -28,12 +28,8 @@ export const FormOfPhoneNumber = (props) => {
         return { ...old, flagOfPhoneNumber: false };
       });
       return;
-    } /* else {
-      setPhoneNumberError(() => {
-        console.log("Phone Number is True");
-        return "";
-      });
-    } */
+    }
+
     if (phoneNumber.number1.length < 2) {
       setPhoneNumberError(() => {
         console.log("Phone Number is false NOT 03 06 Format");
@@ -134,20 +130,12 @@ export const FormOfPhoneNumber = (props) => {
         setPhoneNumberError(() => {
           return "数字を入力してください";
         });
-        /*  props.setFlagOfForm((old) => {
-          return { ...old, flagOfPhoneNumber: false };
-        });
-        return;*/
       }
 
       if (e.target.value.trim().length > 5) {
         setPhoneNumberError(() => {
           return "市外局番は5桁以下です";
         });
-        /*props.setFlagOfForm((old) => {
-          return { ...old, flagOfPhoneNumber: false };
-        });
-        return;*/
       }
 
       setPhoneNumber((old) => {
@@ -192,12 +180,7 @@ export const FormOfPhoneNumber = (props) => {
         });
         return;
       }
-      /*
-      setPhoneNumberError(() => {
-        return "";
-      });*/
       console.log("This is handlePhoneNumber2 process .... ");
-      /*if (e.target.value.trim().length === 0) {*/
       setPhoneNumber((old) => {
         console.log("This is setPhoneNumber of handlePhoneNumber2 preocess...");
         return {
@@ -240,9 +223,6 @@ export const FormOfPhoneNumber = (props) => {
         });
         return;
       }
-      /*      setPhoneNumberError(() => {
-        return "";
-      });*/
 
       console.log("This is handlePhoneNumber3 process .... ");
       setPhoneNumber((old) => {
@@ -276,6 +256,7 @@ export const FormOfPhoneNumber = (props) => {
         <input
           type="text"
           value={phoneNumber.number1}
+          id={properties.htmlFor}
           onChange={handlePhoneNumber1}
         />{" "}
         -

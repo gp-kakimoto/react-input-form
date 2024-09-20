@@ -40,7 +40,14 @@ export const FormOfName = (props) => {
   };
 
   const input = () => {
-    return <input type="text" value={name} onChange={handleNameChange} />;
+    return (
+      <input
+        type="text"
+        value={name}
+        id={properties.htmlFor}
+        onChange={handleNameChange}
+      />
+    );
   };
 
   return (

@@ -13,6 +13,7 @@ export const FormOfMeetingPlace = () => {
   }, []);
 
   const properties = {
+    htmlFor: "online",
     label: "会場",
     required: "必須",
     type: "radio",
@@ -26,6 +27,7 @@ export const FormOfMeetingPlace = () => {
         <input
           type={properties.type}
           value={properties.online}
+          id={properties.online}
           onChange={handleSelectedMeetingPlaceOptionChange}
           checked={selectedMeetingPlaceOption === properties.online}
         />

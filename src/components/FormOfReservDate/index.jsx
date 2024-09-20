@@ -77,6 +77,7 @@ export const FormOfReservDate = (props) => {
           type="date"
           min={today}
           value={reservDate}
+          id={properties.htmlFor}
           onChange={handleReservDate}
         />{" "}
         13時 ～ 14時
