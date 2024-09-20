@@ -12,16 +12,12 @@ export const FormOfPhoneNumber = (props) => {
     useState("電話番号の入力は必須です");
 
   const checkPhoneNumber = () => {
-    console.log(phoneNumber.number1);
-    console.log(phoneNumber.number2);
-    console.log(phoneNumber.number3);
     if (
       phoneNumber.number1.length === 0 ||
       phoneNumber.number2.length === 0 ||
       phoneNumber.number3.length === 0
     ) {
       setPhoneNumberError(() => {
-        console.log("Phone Number is false");
         return "電話番号は必須項目です。";
       });
       props.setFlagOfForm((old) => {
@@ -32,7 +28,6 @@ export const FormOfPhoneNumber = (props) => {
 
     if (phoneNumber.number1.length < 2) {
       setPhoneNumberError(() => {
-        console.log("Phone Number is false NOT 03 06 Format");
         return "入力された電話番号は正しくありません";
       });
 
@@ -47,7 +42,6 @@ export const FormOfPhoneNumber = (props) => {
       (phoneNumber.number2.length !== 4 || phoneNumber.number3.length !== 4)
     ) {
       setPhoneNumberError(() => {
-        console.log("Phone Number is false NOT 03 06 Format");
         return "入力された電話番号は正しくありません";
       });
 
@@ -64,7 +58,6 @@ export const FormOfPhoneNumber = (props) => {
       phoneNumber.number1 !== "06"
     ) {
       setPhoneNumberError(() => {
-        console.log("Phone Number is false NOT 03 06 Format");
         return "入力された電話番号は正しくありません";
       });
 
@@ -80,7 +73,6 @@ export const FormOfPhoneNumber = (props) => {
       (phoneNumber.number2.length !== 4 || phoneNumber.number3.length !== 4)
     ) {
       setPhoneNumberError(() => {
-        console.log("Phone Number is false");
         return "入力された電話番号は正しくありません";
       });
 
@@ -102,7 +94,6 @@ export const FormOfPhoneNumber = (props) => {
         phoneNumber.number3.length !== 4)
     ) {
       setPhoneNumberError(() => {
-        console.log("Phone Number is false");
         return "入力された電話番号は正しくありません";
       });
       props.setFlagOfForm((old) => {
@@ -178,9 +169,7 @@ export const FormOfPhoneNumber = (props) => {
         });
         return;
       }
-      console.log("This is handlePhoneNumber2 process .... ");
       setPhoneNumber((old) => {
-        console.log("This is setPhoneNumber of handlePhoneNumber2 preocess...");
         return {
           ...old,
           number2: e.target.value.trim(),
@@ -221,9 +210,7 @@ export const FormOfPhoneNumber = (props) => {
         return;
       }
 
-      console.log("This is handlePhoneNumber3 process .... ");
       setPhoneNumber((old) => {
-        console.log("This is setPhoneNumber of handlePhoneNumber3 preocess...");
         return {
           ...old,
           number3: e.target.value.trim(),

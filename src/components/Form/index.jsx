@@ -15,7 +15,6 @@ export const Form = () => {
   const handleSubmit = (e) => {
     /*e.stopPropagation();*/
     e.preventDefault();
-    console.log(flagOfForm);
     if (
       flagOfForm.flagOfName === true &&
       flagOfForm.flagOfPhoneNumber === true &&
