@@ -75,8 +75,8 @@ export const FormOfPhoneNumber = (props) => {
       });
 
       setPhoneNumberError(() => {
-        return e.target.value.trim().length !== 0 &&
-          phoneNumber.number2.length !== 0 &&
+        return e.target.value.trim().length !== 0 ||
+          phoneNumber.number2.length !== 0 ||
           phoneNumber.number3.length !== 0
           ? ""
           : "電話番号の入力は必須です。";
@@ -110,8 +110,8 @@ export const FormOfPhoneNumber = (props) => {
       });
 
       setPhoneNumberError(() => {
-        return e.target.value.trim().length !== 0 &&
-          phoneNumber.number1.length !== 0 &&
+        return e.target.value.trim().length !== 0 ||
+          phoneNumber.number1.length !== 0 ||
           phoneNumber.number3.length !== 0
           ? ""
           : "電話番号の入力は必須です。";
@@ -145,8 +145,8 @@ export const FormOfPhoneNumber = (props) => {
       });
 
       setPhoneNumberError(() => {
-        return e.target.value.trim().length !== 0 &&
-          phoneNumber.number1.length !== 0 &&
+        return e.target.value.trim().length !== 0 ||
+          phoneNumber.number1.length !== 0 ||
           phoneNumber.number2.length !== 0
           ? ""
           : "電話番号の入力は必須です。";
