@@ -5,7 +5,7 @@ export const FormOfName = (props) => {
   /* 名前を保存する変数とsetするための関数 */
   const [name, setName] = useState("");
   /* 名前が入力されていないときのエラメッセージを保存するための変数とsetの関数*/
-  const [nameError, setNameError] = useState("名前の入力は必須です");
+  const [nameError, setNameError] = useState("");
   const handleNameChange = useCallback((e) => {
     if (e.target.value.length > 100) {
       alert("100文字以内にしてください");

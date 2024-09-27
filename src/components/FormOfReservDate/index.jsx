@@ -5,8 +5,7 @@ export const FormOfReservDate = (props) => {
   /* 予約日を保存する変数とsetするための関数 */
   const [reservDate, setReservDate] = useState("");
   /*現在時刻を保持するための変数*/
-  const [reservDateError, setReservDateError] =
-    useState("予約日の入力は必須です");
+  const [reservDateError, setReservDateError] = useState("");
 
   const now = new Date();
   const hour = now.getHours();
