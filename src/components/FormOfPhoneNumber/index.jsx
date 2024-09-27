@@ -14,10 +14,9 @@ export const FormOfPhoneNumber = (props) => {
 
   const checkPhoneNumberNew = () => {
     if (
-      phoneNumber.number1.length +
-        phoneNumber.number2.length +
-        phoneNumber.number3.length ===
-      0
+      phoneNumber.number1.length === 0 ||
+      phoneNumber.number2.length === 0 ||
+      phoneNumber.number3.length === 0
     ) {
       setPhoneNumberError(() => {
         return "電話番号の入力は必須です。";
