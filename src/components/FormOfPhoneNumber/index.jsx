@@ -51,7 +51,6 @@ export const FormOfPhoneNumber = (props) => {
 
   const handlePhoneNumber1 = useCallback(
     (e) => {
-      /*if (e.target.value.trim().match(/[^0-9０-９]+/)) {*/
       if (e.target.value.trim().match(/[^0-9]+/)) {
         setPhoneNumberError(() => {
           return "数字を入力してください";
@@ -87,7 +86,6 @@ export const FormOfPhoneNumber = (props) => {
 
   const handlePhoneNumber2 = useCallback(
     (e) => {
-      /*if (e.target.value.trim().match(/[^0-9０-９]+/)) {*/
       if (e.target.value.trim().match(/[^0-9]+/)) {
         setPhoneNumberError(() => {
           return "数字を入力してください";
@@ -121,7 +119,6 @@ export const FormOfPhoneNumber = (props) => {
 
   const handlePhoneNumber3 = useCallback(
     (e) => {
-      /*if (e.target.value.trim().match(/[^0-9０-９]+/)) {*/
       if (e.target.value.trim().match(/[^0-9]+/)) {
         setPhoneNumberError(() => {
           return "数字を入力してください";

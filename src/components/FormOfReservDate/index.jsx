@@ -12,26 +12,29 @@ export const FormOfReservDate = (props) => {
   if (hour >= 13) {
     now.setDate(now.getDate() + 1);
   }
-  const nowMonth =
-    now.getMonth() < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1;
-
-  const nowDate = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
+  const nowMonth = (now.getMonth() + 1).toString().padStart(2, "0");
+  console.log(`nowMonth=${nowMonth}`);
+  const nowDate = now.getDate().toString().padStart(2, "0");
+  console.log(`nowDate=${nowDate}`);
   const nowYear = now.getFullYear();
   const today = useMemo(() => {
     return nowYear + "-" + nowMonth + "-" + nowDate;
   }, [nowYear, nowMonth, nowDate]);
 
   const handleReservDate = useCallback((e) => {
-    /*今日の日付を保持するための変数*/
-    /* const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); */
     const targetDate = new Date(e.target.value.trim());
-    /*  予約日が入力されていないときのエラメッセージを保存するための変数とsetの関数*/
     if (e.target.value.trim().length === 0) {
       setReservDate(() => {
         return "";
       });
       setReservDateError(() => {
         return "予約日の入力は必須です";
+      });
+
+      /*このコメントの下の処理がないと、一度正しい日付を入力して、消したときに
+      誤動作する */
+      props.setFlagOfForm((old) => {
+        return { ...old, flagOfReservDate: false };
       });
     } else {
       if (now.getDate() > targetDate.getDate()) {

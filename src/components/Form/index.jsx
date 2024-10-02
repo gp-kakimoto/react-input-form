@@ -11,6 +11,8 @@ export const Form = () => {
     flagOfReservDate: false,
   });
 
+  console.log(`flagOfForm.flagOfReservDate=${flagOfForm.flagOfReservDate}`);
+
   const [checkPhoneNumberOfP, setCheckPhoneNumberofP] = useState(null);
   const handleSubmit = (e) => {
     /*e.stopPropagation();*/
@@ -39,12 +41,6 @@ export const Form = () => {
       e.preventDefault();
     }
   };
-
-  /*   const checkInputData = useCallback(
-    () => {
-    },
-    [    ]
-  ); */
 
   return (
     <div className={styles.inputform_container}>
