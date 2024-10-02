@@ -13,9 +13,7 @@ export const FormOfReservDate = (props) => {
     now.setDate(now.getDate() + 1);
   }
   const nowMonth = (now.getMonth() + 1).toString().padStart(2, "0");
-  console.log(`nowMonth=${nowMonth}`);
   const nowDate = now.getDate().toString().padStart(2, "0");
-  console.log(`nowDate=${nowDate}`);
   const nowYear = now.getFullYear();
   const today = useMemo(() => {
     return nowYear + "-" + nowMonth + "-" + nowDate;
