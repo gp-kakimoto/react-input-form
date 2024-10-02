@@ -11,8 +11,6 @@ export const Form = () => {
     flagOfReservDate: false,
   });
 
-  console.log(`flagOfForm.flagOfReservDate=${flagOfForm.flagOfReservDate}`);
-
   const [checkPhoneNumberOfP, setCheckPhoneNumberofP] = useState(null);
   const handleSubmit = (e) => {
     /*e.stopPropagation();*/
