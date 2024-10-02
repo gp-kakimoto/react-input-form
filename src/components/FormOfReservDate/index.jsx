@@ -21,7 +21,11 @@ export const FormOfReservDate = (props) => {
 
   const handleReservDate = useCallback((e) => {
     const targetDate = new Date(e.target.value.trim());
-    if (e.target.value.trim().length === 0) {
+
+    if (
+      e.target.value.trim().length === 0 ||
+      now.getDate() > targetDate.getDate()
+    ) {
       setReservDate(() => {
         return "";
       });
@@ -29,34 +33,19 @@ export const FormOfReservDate = (props) => {
         return "予約日の入力は必須です";
       });
 
-      /*このコメントの下の処理がないと、一度正しい日付を入力して、消したときに
-      誤動作する */
       props.setFlagOfForm((old) => {
         return { ...old, flagOfReservDate: false };
       });
     } else {
-      if (now.getDate() > targetDate.getDate()) {
-        setReservDate(() => {
-          return "";
-        });
-        setReservDateError(() => {
-          return "予約日の入力は必須です";
-        });
-
-        props.setFlagOfForm((old) => {
-          return { ...old, flagOfReservDate: false };
-        });
-      } else {
-        setReservDate(() => {
-          return e.target.value.trim();
-        });
-        setReservDateError(() => {
-          return "";
-        });
-        props.setFlagOfForm((old) => {
-          return { ...old, flagOfReservDate: true };
-        });
-      }
+      setReservDate(() => {
+        return e.target.value.trim();
+      });
+      setReservDateError(() => {
+        return "";
+      });
+      props.setFlagOfForm((old) => {
+        return { ...old, flagOfReservDate: true };
+      });
     }
   }, []);
 
