@@ -51,74 +51,27 @@ export const FormOfPhoneNumber = (props) => {
 
   const handlePhoneNumber1 = useCallback(
     (e) => {
-      if (e.target.value.trim().match(/[^0-9]+/)) {
-        setPhoneNumberError(() => {
-          return "数字を入力してください";
-        });
-        props.setFlagOfForm((old) => {
-          return { ...old, flagOfPhoneNumber: false };
-        });
-        return;
-      }
-
-      if (e.target.value.trim().length > 5) {
-        return;
-      }
-
-      setPhoneNumber((old) => {
-        return {
-          ...old,
-          number1: e.target.value,
-        };
-      });
-
-      setPhoneNumberError(() => {
-        return e.target.value.trim().length !== 0 ||
-          phoneNumber.number2.length !== 0 ||
-          phoneNumber.number3.length !== 0
-          ? ""
-          : "電話番号の入力は必須です。";
-      });
+      test(e, "number1", "number2", "number3", 5);
     },
-
     [phoneNumber.number2, phoneNumber.number3]
   );
 
   const handlePhoneNumber2 = useCallback(
     (e) => {
-      if (e.target.value.trim().match(/[^0-9]+/)) {
-        setPhoneNumberError(() => {
-          return "数字を入力してください";
-        });
-        props.setFlagOfForm((old) => {
-          return { ...old, flagOfPhoneNumber: false };
-        });
-        return;
-      }
-
-      if (e.target.value.trim().length > 4) {
-        return;
-      }
-      setPhoneNumber((old) => {
-        return {
-          ...old,
-          number2: e.target.value.trim(),
-        };
-      });
-
-      setPhoneNumberError(() => {
-        return e.target.value.trim().length !== 0 ||
-          phoneNumber.number1.length !== 0 ||
-          phoneNumber.number3.length !== 0
-          ? ""
-          : "電話番号の入力は必須です。";
-      });
+      test(e, "number2", "number1", "number3", 4);
     },
     [phoneNumber.number1, phoneNumber.number3]
   );
 
   const handlePhoneNumber3 = useCallback(
     (e) => {
+      test(e, "number3", "number1", "number2", 4);
+    },
+    [phoneNumber.number1, phoneNumber.number2]
+  );
+
+  const test = (e, index1, index2, index3, phoneNumberLength) => {
+    {
       if (e.target.value.trim().match(/[^0-9]+/)) {
         setPhoneNumberError(() => {
           return "数字を入力してください";
@@ -129,27 +82,26 @@ export const FormOfPhoneNumber = (props) => {
         return;
       }
 
-      if (e.target.value.trim().length > 4) {
+      if (e.target.value.trim().length > phoneNumberLength) {
         return;
       }
 
       setPhoneNumber((old) => {
         return {
           ...old,
-          number3: e.target.value.trim(),
+          [index1]: e.target.value.trim(),
         };
       });
 
       setPhoneNumberError(() => {
         return e.target.value.trim().length !== 0 ||
-          phoneNumber.number1.length !== 0 ||
-          phoneNumber.number2.length !== 0
+          phoneNumber[index2].length !== 0 ||
+          phoneNumber[index3].length !== 0
           ? ""
           : "電話番号の入力は必須です。";
       });
-    },
-    [phoneNumber.number1, phoneNumber.number2]
-  );
+    }
+  };
 
   const properties = {
     htmlFor: "tel1",
@@ -184,6 +136,7 @@ export const FormOfPhoneNumber = (props) => {
       </div>
     );
   };
+
   return (
     <FormContainer
       properties={properties}
