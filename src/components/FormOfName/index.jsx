@@ -36,7 +36,6 @@ export const FormOfName = (props) => {
     });
 
     setNameError(() => {
-      console.log(e.target.value.trim());
       return e.target.value.trim().length === 0 ? "名前の入力は必須です。" : "";
     });
 
