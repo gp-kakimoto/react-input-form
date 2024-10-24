@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { FormContainer } from "../FormContainer";
 import { parsePhoneNumber } from "libphonenumber-js/max";
+import { InputField } from "../InputField";
 
 export const FormOfPhoneNumber = (props) => {
   /* 電話番号を保存するための変数 */
@@ -21,12 +21,17 @@ export const FormOfPhoneNumber = (props) => {
       setPhoneNumberError(() => {
         return "電話番号の入力は必須です。";
       });
+
+      props.setFlagOfForm((old) => {
+        return { ...old, flagOfPhoneNumber: false };
+      });
       return;
     }
 
     const tmpParsePhoneNumber = parsePhoneNumber(
       "+81" + phoneNumber.number1 + phoneNumber.number2 + phoneNumber.number3
     );
+
     if (!tmpParsePhoneNumber.isValid()) {
       setPhoneNumberError(() => {
         return "電話番号は正しくありません。";
@@ -49,30 +54,11 @@ export const FormOfPhoneNumber = (props) => {
     });
   }, [phoneNumber]);
 
-  const handlePhoneNumber1 = useCallback(
+  const handlePhoneNumber = useCallback(
     (e) => {
-      test(e, "number1", "number2", "number3", 5);
-    },
-    [phoneNumber.number2, phoneNumber.number3]
-  );
+      const { name, value, maxLength } = e.target;
 
-  const handlePhoneNumber2 = useCallback(
-    (e) => {
-      test(e, "number2", "number1", "number3", 4);
-    },
-    [phoneNumber.number1, phoneNumber.number3]
-  );
-
-  const handlePhoneNumber3 = useCallback(
-    (e) => {
-      test(e, "number3", "number1", "number2", 4);
-    },
-    [phoneNumber.number1, phoneNumber.number2]
-  );
-
-  const test = (e, index1, index2, index3, phoneNumberLength) => {
-    {
-      if (e.target.value.trim().match(/[^0-9]+/)) {
+      if (value.trim().match(/[^0-9]+/)) {
         setPhoneNumberError(() => {
           return "数字を入力してください";
         });
@@ -82,66 +68,64 @@ export const FormOfPhoneNumber = (props) => {
         return;
       }
 
-      if (e.target.value.trim().length > phoneNumberLength) {
+      if (value.trim().length > maxLength) {
         return;
       }
 
-      setPhoneNumber((old) => {
-        return {
-          ...old,
-          [index1]: e.target.value.trim(),
-        };
-      });
-
+      const newPhoneNumber = { ...phoneNumber, [name]: value.trim() };
+      setPhoneNumber(newPhoneNumber);
       setPhoneNumberError(() => {
-        return e.target.value.trim().length !== 0 ||
-          phoneNumber[index2].length !== 0 ||
-          phoneNumber[index3].length !== 0
+        return newPhoneNumber.number1.length !== 0 ||
+          newPhoneNumber.number2.length !== 0 ||
+          newPhoneNumber.number3.length !== 0
           ? ""
           : "電話番号の入力は必須です。";
       });
-    }
-  };
+    },
+    [phoneNumber]
+  );
 
   const properties = {
     htmlFor: "tel1",
     label: "電話番号",
-    required: "必須",
+    required: true,
+    name1: "number1",
+    name2: "number2",
+    name3: "number3",
   };
 
-  const input = () => {
-    return (
+  return (
+    <InputField
+      label={properties.label}
+      required={properties.required}
+      errorMessage={phoneNumberError}
+    >
       <div>
         <input
           type="text"
           value={phoneNumber.number1}
           id={properties.htmlFor}
-          onChange={handlePhoneNumber1}
+          name={properties.name1}
+          onChange={handlePhoneNumber}
           maxLength={5}
         />{" "}
         -
         <input
           type="text"
           value={phoneNumber.number2}
-          onChange={handlePhoneNumber2}
+          name={properties.name2}
+          onChange={handlePhoneNumber}
           maxLength={4}
         />{" "}
         -
         <input
           type="text"
           value={phoneNumber.number3}
-          onChange={handlePhoneNumber3}
+          name={properties.name3}
+          onChange={handlePhoneNumber}
           maxLength={4}
         />
       </div>
-    );
-  };
-
-  return (
-    <FormContainer
-      properties={properties}
-      input={input()}
-      errorMessage={phoneNumberError}
-    />
+    </InputField>
   );
 };

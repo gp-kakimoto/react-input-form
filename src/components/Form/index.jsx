@@ -2,30 +2,37 @@ import styles from "./Form.module.css";
 import { useState } from "react";
 import { FormOfName } from "../FormOfName";
 import { FormOfPhoneNumber } from "../FormOfPhoneNumber";
-import { FormOfReservDate } from "../FormOfReservDate";
+import { FormOfReserveDate } from "../FormOfReserveDate";
 import { FormOfMeetingPlace } from "../FormOfMeetingPlace";
 export const Form = () => {
   const [flagOfForm, setFlagOfForm] = useState({
     flagOfName: false,
     flagOfPhoneNumber: false,
-    flagOfReservDate: false,
+    flagOfReserveDate: false,
   });
 
   const [checkPhoneNumberOfP, setCheckPhoneNumberofP] = useState(null);
+  const [checkNameOfP, setCheckNameOfP] = useState(null);
+  const [checkReserveDateOfP, setCheckReserveDateOfP] = useState(null);
+  const checkFunction = () => {
+    checkPhoneNumberOfP();
+    checkNameOfP();
+    checkReserveDateOfP();
+  };
   const handleSubmit = (e) => {
     /*e.stopPropagation();*/
+
     e.preventDefault();
     if (
       flagOfForm.flagOfName === true &&
       flagOfForm.flagOfPhoneNumber === true &&
-      flagOfForm.flagOfReservDate === true
+      flagOfForm.flagOfReserveDate === true
     ) {
       console.log("submit process ....");
     }
   };
 
   const checkKeyDown = (e) => {
-    // e.targetがtextarea, button, anchorの場合はEnterを許可
     if (
       e.key === "Enter" &&
       (e.target instanceof HTMLTextAreaElement ||
@@ -49,19 +56,36 @@ export const Form = () => {
         className={styles.inputform}
         onKeyDown={checkKeyDown}
       >
-        <FormOfName setFlagOfForm={setFlagOfForm} />
+        <FormOfName
+          setFlagOfForm={setFlagOfForm}
+          setCheckNameOfP={setCheckNameOfP}
+        />
         <FormOfPhoneNumber
-          flagOfForm={flagOfForm}
           setFlagOfForm={setFlagOfForm}
           setCheckPhoneNumberofP={setCheckPhoneNumberofP}
         />
 
-        <FormOfReservDate setFlagOfForm={setFlagOfForm} />
+        <FormOfReserveDate
+          flagOfForm={flagOfForm}
+          setFlagOfForm={setFlagOfForm}
+          setCheckReserveDateOfP={setCheckReserveDateOfP}
+        />
         <FormOfMeetingPlace />
+
         <div className={styles.submit_button_div}>
-          <button type="submit" value="" onClick={checkPhoneNumberOfP}>
+          <button type="submit" value="" onClick={checkFunction}>
             上記の内容で申し込む
           </button>
+
+          {/* <input
+            type="button"
+            name="submitButton"
+            onClick={(e) => {
+              checkFunction();
+              handleSubmit(e);
+            }}
+            value="上記の内容で申し込む"
+          /> */}
         </div>
       </form>
     </div>

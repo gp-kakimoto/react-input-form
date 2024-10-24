@@ -1,6 +1,6 @@
 import styles from "./FormOfMeetingPlace.module.css";
 import { useCallback, useState } from "react";
-import { FormContainer } from "../FormContainer";
+import { InputField } from "../InputField";
 
 export const FormOfMeetingPlace = () => {
   const [selectedMeetingPlaceOption, setSelectedMeetingPlaceOption] =
@@ -15,38 +15,40 @@ export const FormOfMeetingPlace = () => {
   const properties = {
     htmlFor: "online",
     label: "会場",
-    required: "必須",
+    required: true,
     type: "radio",
     online: "online",
     venue: "venue",
   };
 
-  const input = () => {
-    return (
-      <div>
-        <input
-          type={properties.type}
-          value={properties.online}
-          id={properties.online}
-          onChange={handleSelectedMeetingPlaceOptionChange}
-          checked={selectedMeetingPlaceOption === properties.online}
-        />
-        <label htmlFor={properties.online}>オンラインで受講</label>
-        <br />
-        <input
-          type={properties.type}
-          value={properties.venue}
-          onChange={handleSelectedMeetingPlaceOptionChange}
-          checked={selectedMeetingPlaceOption === properties.venue}
-        />
-        <label htmlFor={properties.venue}>会場で受講</label>
-      </div>
-    );
-  };
-
   return (
     <div>
-      <FormContainer properties={properties} input={input()} errorMessage="" />
+      <InputField
+        label={properties.label}
+        required={properties.required}
+        errorMessage=""
+      >
+        <div>
+          <input
+            type={properties.type}
+            value={properties.online}
+            id={properties.online}
+            name={properties.online}
+            onChange={handleSelectedMeetingPlaceOptionChange}
+            checked={selectedMeetingPlaceOption === properties.online}
+          />
+          <label htmlFor={properties.online}>オンラインで受講</label>
+          <br />
+          <input
+            type={properties.type}
+            value={properties.venue}
+            name={properties.venue}
+            onChange={handleSelectedMeetingPlaceOptionChange}
+            checked={selectedMeetingPlaceOption === properties.venue}
+          />
+          <label htmlFor={properties.venue}>会場で受講</label>
+        </div>
+      </InputField>
       {selectedMeetingPlaceOption === properties.online ? (
         <div>
           <p className={styles.information}>
