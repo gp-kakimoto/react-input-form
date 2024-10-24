@@ -53,21 +53,10 @@ export const FormOfName = (props) => {
     required: true,
   };
 
-  const input = () => {
-    return (
-      <input
-        type="text"
-        value={name}
-        id={properties.htmlFor}
-        name={properties.name}
-        onChange={handleNameChange}
-      />
-    );
-  };
-
   return (
     <InputField
       label={properties.label}
+      id={properties.htmlFor}
       required={properties.required}
       errorMessage={nameError}
     >

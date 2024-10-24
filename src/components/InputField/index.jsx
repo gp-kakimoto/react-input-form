@@ -1,8 +1,9 @@
 import styles from "./InputField.module.css";
 export const InputField = (props) => {
-  const { label, required, errorMessage, children } = props;
-  const inputId = children?.props?.id;
-
+  const { label, id, required, errorMessage, children } = props;
+  /*const inputId = children?.props?.id;*/
+  const inputId = id;
+  console.log(`inputId=${inputId}`);
   return (
     <dl className={styles.inputform_dl}>
       <dt className={styles.inputform_dl_dt}>

@@ -25,6 +25,7 @@ export const FormOfMeetingPlace = () => {
     <div>
       <InputField
         label={properties.label}
+        id={properties.htmlFor}
         required={properties.required}
         errorMessage=""
       >

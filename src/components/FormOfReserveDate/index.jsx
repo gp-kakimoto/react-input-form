@@ -101,6 +101,7 @@ export const FormOfReserveDate = (props) => {
   return (
     <InputField
       label={properties.label}
+      id={properties.htmlFor}
       required={properties.required}
       errorMessage={reserveDateError}
     >

@@ -97,6 +97,7 @@ export const FormOfPhoneNumber = (props) => {
   return (
     <InputField
       label={properties.label}
+      id={properties.htmlFor}
       required={properties.required}
       errorMessage={phoneNumberError}
     >
